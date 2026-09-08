@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Simulação Counting Sort</title>
+<style>
+body{font-family:Arial,sans-serif;max-width:900px;margin:40px auto;padding:0 20px;text-align:center}
+.box{border:2px solid #ddd;border-radius:14px;padding:25px;margin:20px 0}
+.nums{display:flex;justify-content:center;gap:12px;margin:20px 0;flex-wrap:wrap}
+.num{border:2px solid #555;border-radius:10px;padding:14px 20px;font-size:25px;min-width:35px}
+button{padding:12px 20px;margin:6px;border:0;border-radius:9px;cursor:pointer;font-size:16px}
+#msg{font-size:20px;min-height:50px}
+</style>
+</head>
+<body>
+<h1>Counting Sort — Simulação</h1>
+<div class="box">
+<h2 id="titulo">Vetor original</h2>
+<div id="vetor" class="nums"></div>
+<div id="contador"></div>
+<p id="msg">Clique em "Próximo" para acompanhar o algoritmo.</p>
+</div>
+<button onclick="anterior()">← Anterior</button>
+<button onclick="proximo()">Próximo →</button>
+<button onclick="reiniciar()">Reiniciar</button>
+<script>
+const original=[4,2,2,1,3];
+const passos=[
+["Vetor original", [4,2,2,1,3], "", "Começamos com o vetor desordenado."],
+["Encontrar o maior", [4,2,2,1,3], "", "Percorremos o vetor e descobrimos que o maior valor é 4."],
+["Criar o contador", [4,2,2,1,3], [0,0,0,0,0], "Criamos o contador com posições de 0 até 4."],
+["Contar o 4", [4,2,2,1,3], [0,0,0,0,1], "Encontramos um 4 → contador[4] aumenta."],
+["Contar o primeiro 2", [4,2,2,1,3], [0,0,1,0,1], "Encontramos um 2 → contador[2] aumenta."],
+["Contar o segundo 2", [4,2,2,1,3], [0,0,2,0,1], "Encontramos outro 2 → contador[2] aumenta novamente."],
+["Contar o 1", [4,2,2,1,3], [0,1,2,0,1], "Encontramos um 1."],
+["Contar o 3", [4,2,2,1,3], [0,1,2,1,1], "Encontramos um 3. A contagem está pronta."],
+["Reconstruir", [1,2,2,3,4], [0,0,0,0,0], "Usamos as contagens para reconstruir o vetor em ordem."],
+["Resultado final", [1,2,2,3,4], "", "Vetor ordenado!"]
+];
+let p=0;
+function render(){
+ let s=passos[p];
+ document.getElementById("titulo").textContent="Passo "+(p+1)+": "+s[0];
+ document.getElementById("vetor").innerHTML=s[1].map(x=>`<span class="num">${x}</span>`).join("");
+ document.getElementById("contador").innerHTML=s[2] ? `<h3>Contador</h3><div class="nums">${s[2].map((x,i)=>`<div><small>${i}</small><div class="num">${x}</div></div>`).join("")}</div>` : "";
+ document.getElementById("msg").textContent=s[3];
+}
+function proximo(){if(p<passos.length-1){p++;render()}}
+function anterior(){if(p>0){p--;render()}}
+function reiniciar(){p=0;render()}
+render();
+</script>
+</body>
+</html>
